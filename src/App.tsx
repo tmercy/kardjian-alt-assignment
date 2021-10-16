@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReactPagingate from 'react-paginate';
+import { MovieDetailsContext } from './context/MovieDetailsContext';
 import MovieSearchBar from './components/MovieSearchBar';
 import MovieSearchResults from './components/MovieSearchResults/MovieSearchResults';
 import MovieDetails from './components/MovieDetails/MovieDetails';
@@ -126,22 +127,23 @@ const App = () => {
             onInputChange={onInputChange}
             onSearch={onSearch}
           />
-          <MovieSearchResults
-            movies={searchResults}
-            dataIsLoading={searchDataIsLoading}
-            showNoResultsMessage={showNoResultsMessage}
-            toggleMovieDetails={onToggleMovieDetails}
-            updateMovieDetailsId={onUpdateMovieDetailsId}
-            showSearchError={searchError}
-          />
-          {showMovieDetails && (
-            <MovieDetails
-              showMovieDetails
-              toggleMovieDetails={onToggleMovieDetails}
-              movieDetails={movieDetails}
-              dataIsLoading={detailsDataIsLoading}
+          <MovieDetailsContext.Provider
+            value={{
+              toggleMovieDetails: onToggleMovieDetails,
+              updateMovieDetailsId: onUpdateMovieDetailsId,
+              showMovieDetails,
+              movieDetails,
+              detailsDataIsLoading,
+            }}
+          >
+            <MovieSearchResults
+              movies={searchResults}
+              dataIsLoading={searchDataIsLoading}
+              showNoResultsMessage={showNoResultsMessage}
+              showSearchError={searchError}
             />
-          )}
+            {showMovieDetails && <MovieDetails />}
+          </MovieDetailsContext.Provider>
         </div>
         {searchResults.length && pageCount > 0 ? (
           <ReactPagingate
