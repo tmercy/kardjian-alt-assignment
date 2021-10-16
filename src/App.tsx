@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import ReactPagingate from 'react-paginate';
 import MovieSearchBar from './components/MovieSearchBar';
 import MovieSearchResults from './components/MovieSearchResults/MovieSearchResults';
@@ -41,11 +40,11 @@ const App = () => {
     setShouldFetchSearchResults(false);
     const URL = `http://www.omdbapi.com/?apikey=9bc26618&s=${searchQuery}&type=movie&page=${currentPage}`;
     try {
-      const response = await axios.get(URL);
-      const {
-        data: { Search: searchResults = [], totalResults = 1 },
-      } = response;
-      const newPageCount = Math.ceil(totalResults / RESULTS_PER_PAGE);
+      const response = await fetch(URL);
+      const responseData = await response.json();
+      const { Search: searchResults = [], totalResults = 1 } = responseData;
+
+      const newPageCount = Math.ceil(Number(totalResults) / RESULTS_PER_PAGE);
       setPageCount(newPageCount);
       setSearchResults(searchResults);
       setSearchDataIsLoading(false);
@@ -68,8 +67,9 @@ const App = () => {
     setDetailsDataIsLoading(true);
     const URL = `http://www.omdbapi.com/?apikey=9bc26618&i=${imdbID}&type=movie`;
     try {
-      const response = await axios.get(URL);
-      const { data: movieDetails = {} } = response;
+      const response = await fetch(URL);
+      const movieDetails = await response.json();
+
       const cleanMovieDetails = filterMovieDetailsData(movieDetails);
       setMovieDetails(cleanMovieDetails);
       setDetailsDataIsLoading(false);
