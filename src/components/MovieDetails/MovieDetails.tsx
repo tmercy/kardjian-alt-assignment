@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import {
   Dialog,
-  Box,
   Typography,
   CircularProgress,
   DialogContent,
@@ -39,36 +38,42 @@ const MovieDetails = () => {
           onClose={toggleMovieDetails}
           maxWidth='md'
         >
-          <DialogTitle sx={sxStyles.movieTitle}>{movie.Title}</DialogTitle>
-          <Divider sx={{ mt: -1 }} variant='middle' />
-          <DialogContent sx={sxStyles.dialogContent}>
-            <Box sx={sxStyles.detailsContainer}>
-              {(keysToRenderInDescription as Array<keyof typeof movie>).map(
-                (key: keyof MovieDetailsType, index: number) => {
-                  return (
-                    <div key={`${key}-${index}`}>
-                      <Typography sx={sxStyles.detailsLabel} variant='body1'>
-                        {key}
-                      </Typography>
-                      <Typography>{movie[key]}</Typography>
-                    </div>
-                  );
-                }
-              )}
-            </Box>
-            <Box sx={sxStyles.posterContainer}>
-              <img
-                className={classes.moviePosterImage}
-                alt={`${movie.Title} Poster`}
-                src={
-                  movie.Poster && movie.Poster !== 'N/A'
-                    ? movie.Poster
-                    : noPosterAvailable
-                }
-              ></img>
-            </Box>
+          <DialogTitle>
+            <Typography className={classes.movieTitle} variant='h5'>
+              {movie.Title}
+            </Typography>
+          </DialogTitle>
+          <Divider variant='middle' />
+          <DialogContent>
+            <div className={classes.dialogContent}>
+              <div className={classes.detailsContainer}>
+                {(keysToRenderInDescription as Array<keyof typeof movie>).map(
+                  (key: keyof MovieDetailsType, index: number) => {
+                    return (
+                      <div key={`${key}-${index}`}>
+                        <Typography sx={sxStyles.detailsLabel}>
+                          {key}
+                        </Typography>
+                        <Typography>{movie[key]}</Typography>
+                      </div>
+                    );
+                  }
+                )}
+              </div>
+              <div className={classes.posterContainer}>
+                <img
+                  className={classes.moviePosterImage}
+                  alt={`${movie.Title} Poster`}
+                  src={
+                    movie.Poster && movie.Poster !== 'N/A'
+                      ? movie.Poster
+                      : noPosterAvailable
+                  }
+                ></img>
+              </div>
+            </div>
           </DialogContent>
-          <DialogActions sx={sxStyles.dialogActions}>
+          <DialogActions>
             <Button onClick={toggleMovieDetails} variant='outlined'>
               Close
             </Button>

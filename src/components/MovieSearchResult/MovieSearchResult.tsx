@@ -1,44 +1,15 @@
 import React, { useContext } from 'react';
-import {
-  Card,
-  CardMedia,
-  CardActionArea,
-  Typography,
-  Box,
-} from '@mui/material';
+import { Card, CardMedia, CardActionArea, Typography } from '@mui/material';
 import noPosterAvailable from '../../static/no-poster-available.png';
 import type { MovieSearchResult as MovieSearchResultType } from './MovieSearchResult.type';
 import { MovieDetailsContext } from '../../context/MovieDetailsContext';
-
-const sxStyles = {
-  card: {
-    my: 3,
-  } as const,
-  cardActionArea: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    py: 4,
-  } as const,
-  titleAndYear: {
-    display: 'flex',
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    textAlign: 'start',
-    ml: 4,
-  } as const,
-  moviePoster: {
-    width: '150px',
-    height: '210px',
-    borderRadius: 2,
-    mr: 4,
-  } as const,
-};
+import { sxStyles, useStyles } from './MovieSearchResult.styles';
 
 const MovieSearchResult = ({ movie }: { movie: MovieSearchResultType }) => {
   const { updateMovieDetailsId, toggleMovieDetails } =
     useContext(MovieDetailsContext);
+
+  const classes = useStyles();
 
   const onMovieClick = (id: string) => {
     updateMovieDetailsId(id);
@@ -51,20 +22,20 @@ const MovieSearchResult = ({ movie }: { movie: MovieSearchResultType }) => {
         onClick={() => onMovieClick(movie.imdbID)}
         sx={sxStyles.cardActionArea}
       >
-        <Box sx={sxStyles.titleAndYear}>
-          <Box>
+        <div className={classes.titleAndYear}>
+          <div>
             <Typography color='text.secondary'>Title:</Typography>
             <Typography variant='h6'>
               {movie.Title || '[Title Not Found]'}
             </Typography>
-          </Box>
-          <Box>
+          </div>
+          <div>
             <Typography color='text.secondary'>Year:</Typography>
             <Typography variant='h6'>
               {movie.Year || '[Release Year Not Found]'}
             </Typography>
-          </Box>
-        </Box>
+          </div>
+        </div>
         <CardMedia
           component='img'
           image={movie?.Poster !== 'N/A' ? movie.Poster : noPosterAvailable}
