@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReactPagingate from 'react-paginate';
+import { Box, Typography } from '@mui/material';
 import { MovieDetailsContext } from './context/MovieDetailsContext';
 import MovieSearchBar from './components/MovieSearchBar';
 import MovieSearchResults from './components/MovieSearchResults/MovieSearchResults';
@@ -118,10 +119,12 @@ const App = () => {
   }, [shouldFetchMovieDetails]);
 
   return (
-    <div className={classes.root}>
-      <h1 className={classes.header}>Cinema Center</h1>
-      <div className={classes.contentContainer}>
-        <div className={classes.searchBarAndResultsContainer}>
+    <Box className={classes.root}>
+      <Typography variant='h4' className={classes.header}>
+        Cinema Center
+      </Typography>
+      <Box className={classes.contentContainer}>
+        <Box className={classes.searchBarAndResultsContainer}>
           <MovieSearchBar
             value={inputValue}
             onInputChange={onInputChange}
@@ -144,21 +147,22 @@ const App = () => {
             />
             {showMovieDetails && <MovieDetails />}
           </MovieDetailsContext.Provider>
-        </div>
-        {searchResults.length && pageCount > 0 ? (
-          <ReactPagingate
-            previousLabel='prev'
-            nextLabel='next'
-            breakLabel='...'
-            pageCount={pageCount}
-            pageRangeDisplayed={4}
-            onPageChange={onPageChange}
-            containerClassName={classes.paginationContainer}
-            activeClassName={classes.pageIsActive}
-          />
-        ) : null}
-      </div>
-    </div>
+          {searchResults.length && pageCount > 0 ? (
+            <ReactPagingate
+              pageCount={pageCount}
+              pageRangeDisplayed={4}
+              marginPagesDisplayed={2}
+              onPageChange={onPageChange}
+              containerClassName={classes.paginationContainer}
+              activeClassName={classes.pageIsActive}
+              previousLabel='&larr;'
+              nextLabel='&rarr;'
+              breakLabel='...'
+            />
+          ) : null}
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
