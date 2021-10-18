@@ -4,7 +4,11 @@ A lightweight application that allows you to search for any movie in the world.
 
 ## Instructions for running the application
 
-Navigate to the root of the project directory and run the following command:
+Navigate to the root of the project directory and run the following commands:
+
+### `yarn install`
+
+Wait for packages to be installed...
 
 ### `yarn start`
 
