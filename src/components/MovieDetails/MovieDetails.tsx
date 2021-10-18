@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import {
   Dialog,
-  Typography,
   CircularProgress,
   DialogContent,
   DialogTitle,
@@ -9,19 +8,14 @@ import {
   Divider,
   Button,
 } from '@mui/material';
-import { makeStyles } from '@mui/styles';
 import { isMobile } from 'react-device-detect';
 import WebDialogContent from './WebDialogContent/WebDialogContent';
 import MobileDialogContent from './MobileDialogContent/MobileDialogContent';
 import { MovieDetailsContext } from '../../context/MovieDetailsContext';
 import type { MovieDetailsType } from './MovieDetails.type';
+import Colors from '../../Colors';
 
-const useStyles = makeStyles({
-  movieTitle: {
-    textAlign: 'center',
-    fontSize: '30px',
-  },
-});
+const backgroundColor = Colors['@eggshell'];
 
 const MovieDetails = () => {
   const {
@@ -30,8 +24,6 @@ const MovieDetails = () => {
     movieDetails: movie,
     detailsDataIsLoading: dataIsLoading,
   } = useContext(MovieDetailsContext);
-
-  const classes = useStyles();
 
   const keysToRenderInDescription = Object.keys(movie).filter((key) => {
     return key !== 'Poster' && key !== 'Title';
@@ -47,13 +39,17 @@ const MovieDetails = () => {
           onClose={toggleMovieDetails}
           maxWidth='md'
         >
-          <DialogTitle>
-            <Typography className={classes.movieTitle} variant='h5'>
-              {movie.Title}
-            </Typography>
+          <DialogTitle
+            sx={{
+              backgroundColor,
+              textAlign: 'center',
+              fontSize: '30px',
+            }}
+          >
+            {movie.Title}
           </DialogTitle>
           <Divider variant='middle' />
-          <DialogContent>
+          <DialogContent sx={{ backgroundColor }}>
             {isMobile ? (
               <MobileDialogContent
                 keysToRenderInDescription={keysToRenderInDescription}
@@ -64,7 +60,7 @@ const MovieDetails = () => {
               />
             )}
           </DialogContent>
-          <DialogActions>
+          <DialogActions sx={{ backgroundColor }}>
             <Button onClick={toggleMovieDetails} variant='outlined'>
               Close
             </Button>
